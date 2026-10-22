@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" spacing="15.0" prefWidth="380.0" prefHeight="400.0"
+      xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.toko.kasirtoko.controller.LoginController"
+      style="-fx-background-color: #f8fafc; -fx-padding: 30;">
+
+    <Label text="Sistem Kasir Toko" textFill="#1e293b">
+        <font>
+            <Font name="System Bold" size="22.0"/>
+        </font>
+    </Label>
+
+    <Label text="Masuk ke Akun Kasir / Admin" textFill="#64748b"/>
+
+    <VBox spacing="5.0" alignment="CENTER_LEFT">
+        <Label text="Username:"/>
+        <TextField fx:id="usernameField" promptText="Masukkan username" prefHeight="35.0"/>
+    </VBox>
+
+    <VBox spacing="5.0" alignment="CENTER_LEFT">
+        <Label text="Password:"/>
+        <PasswordField fx:id="passwordField" promptText="Masukkan password" prefHeight="35.0"/>
+    </VBox>
+
+    <Label fx:id="errorLabel" textFill="#ef4444" visible="false" wrapText="true"/>
+
+    <Button text="Masuk" onAction="#handleLogin" prefHeight="38.0" prefWidth="320.0"
+            style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;"/>
+</VBox>

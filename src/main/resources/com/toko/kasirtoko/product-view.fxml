@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="10" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.toko.kasirtoko.controller.ProductController">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label text="Manajemen Produk" style="-fx-font-size: 24px; -fx-font-weight: bold;" />
+
+    <HBox spacing="15">
+        <!-- Form Input Kiri -->
+        <GridPane hgap="10" vgap="10">
+            <Label text="ID Kategori:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+            <TextField fx:id="categoryIdField" promptText="Contoh: 1" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+            <Label text="Nama Produk:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+            <TextField fx:id="namaProdukField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+            <Label text="Satuan:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+            <TextField fx:id="satuanField" promptText="Pcs / Botol / Kg" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+            <Label text="Harga Beli (Rp):" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+            <TextField fx:id="hargaBeliField" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+            <Label text="Harga Jual (Rp):" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+            <TextField fx:id="hargaJualField" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+
+            <Label text="Stok:" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+            <TextField fx:id="stokField" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+
+            <Label text="Stok Minimum:" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+            <TextField fx:id="stokMinField" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+
+            <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="7" >
+                <Button text="Tambah" onAction="#handleAdd" styleClass="btn, btn-primary"/>
+                <Button text="Perbarui" onAction="#handleUpdate" styleClass="btn, btn-success"/>
+                <Button text="Hapus" onAction="#handleDelete" styleClass="btn, btn-danger"/>
+                <Button text="Bersihkan" onAction="#clearForm" styleClass="btn, btn-default"/>
+            </HBox>
+        </GridPane>
+
+        <!-- Tabel Kanan -->
+        <TableView fx:id="productTable" HBox.hgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="colId" text="ID" prefWidth="50"/>
+                <TableColumn fx:id="colNama" text="Nama Produk" prefWidth="200"/>
+                <TableColumn fx:id="colSatuan" text="Satuan" prefWidth="80"/>
+                <TableColumn fx:id="colHargaBeli" text="Harga Beli" prefWidth="100"/>
+                <TableColumn fx:id="colHargaJual" text="Harga Jual" prefWidth="100"/>
+                <TableColumn fx:id="colStok" text="Stok" prefWidth="60"/>
+            </columns>
+        </TableView>
+    </HBox>
+</VBox>

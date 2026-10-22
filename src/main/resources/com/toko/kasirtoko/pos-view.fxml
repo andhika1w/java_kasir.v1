@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="700.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.toko.kasirtoko.controller.PosController" style="-fx-background-color: #f1f5f9;">
+    <!-- Bagian Atas: Bar Informasi Kasir -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="20.0" style="-fx-background-color: #1e293b; -fx-padding: 15 25;">
+            <Label text="Sistem Kasir Toko" textFill="white">
+                <font>
+                    <Font name="System Bold" size="20.0" />
+                </font>
+            </Label>
+
+            <!-- TOMBOL MANAJEMEN PRODUK DITAMBAHKAN DI SINI -->
+            <Button text="Manajemen Produk" onAction="#handleOpenProductManagement" styleClass="btn, btn-info" style="-fx-background-color: #38bdf8; -fx-text-fill: #0f172a; -fx-font-weight: bold; -fx-cursor: hand;" />
+
+            <Region HBox.hgrow="ALWAYS" />
+            <Label fx:id="cashierInfoLabel" text="Kasir: Administrator" textFill="#94a3b8">
+                <font>
+                    <Font size="14.0" />
+                </font>
+            </Label>
+        </HBox>
+    </top>
+
+    <!-- Bagian Tengah: Input Item & Tabel Keranjang Belanja -->
+    <center>
+        <VBox spacing="15.0" style="-fx-padding: 20;">
+            <!-- Baris Form Penambahan Barang -->
+            <HBox spacing="10.0" alignment="CENTER_LEFT" style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 8;">
+                <VBox spacing="5.0">
+                    <Label text="Pilih Produk:" />
+                    <ComboBox fx:id="productComboBox" prefWidth="250.0" promptText="Pilih Barang..." />
+                </VBox>
+                <VBox spacing="5.0">
+                    <Label text="Jumlah (Qty):" />
+                    <Spinner fx:id="qtySpinner" prefWidth="90.0" editable="true" />
+                </VBox>
+                <VBox spacing="5.0">
+                    <Label text="Diskon Item (Rp):" />
+                    <TextField fx:id="itemDiscountField" prefWidth="130.0" promptText="0" />
+                </VBox>
+                <VBox alignment="BOTTOM_LEFT">
+                    <Button onAction="#handleAddToCart" text="+ Masukkan Keranjang" prefHeight="35.0" style="-fx-background-color: #0284c7; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" />
+                </VBox>
+                <VBox alignment="BOTTOM_LEFT">
+                    <Button onAction="#handleRemoveFromCart" text="Hapus Item" prefHeight="35.0" style="-fx-background-color: #ef4444; -fx-text-fill: white; -fx-cursor: hand;" />
+                </VBox>
+            </HBox>
+
+            <!-- Tabel Keranjang Belanja -->
+            <TableView fx:id="cartTable" VBox.vgrow="ALWAYS" style="-fx-background-radius: 8;">
+                <columns>
+                    <TableColumn fx:id="colProductName" prefWidth="280.0" text="Nama Produk" />
+                    <TableColumn fx:id="colPrice" prefWidth="140.0" text="Harga Satuan" />
+                    <TableColumn fx:id="colQty" prefWidth="80.0" text="Qty" />
+                    <TableColumn fx:id="colDiscount" prefWidth="120.0" text="Diskon Item" />
+                    <TableColumn fx:id="colSubtotal" prefWidth="160.0" text="Subtotal" />
+                </columns>
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                </columnResizePolicy>
+            </TableView>
+        </VBox>
+    </center>
+
+    <!-- Bagian Kanan: Panel Pembayaran & Cetak Transaksi -->
+    <right>
+        <VBox prefWidth="350.0" spacing="15.0" style="-fx-background-color: white; -fx-padding: 20; -fx-border-color: #e2e8f0; -fx-border-width: 0 0 0 1;">
+            <Label text="Ringkasan Pembayaran" textFill="#0f172a">
+                <font>
+                    <Font name="System Bold" size="16.0" />
+                </font>
+            </Label>
+            <Separator />
+
+            <GridPane vgap="10.0" hgap="10.0">
+                <columnConstraints>
+                    <ColumnConstraints prefWidth="140.0" />
+                    <ColumnConstraints prefWidth="160.0" />
+                </columnConstraints>
+
+                <Label text="Subtotal:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                <Label fx:id="subtotalLabel" text="Rp 0" alignment="CENTER_RIGHT" GridPane.rowIndex="0" GridPane.columnIndex="1" style="-fx-font-weight: bold;" />
+
+                <Label text="Diskon Faktur (Rp):" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                <TextField fx:id="trxDiscountField" text="0" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+
+                <Label text="PPN (11%):" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+                <CheckBox fx:id="taxCheckBox" text="Terapkan" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+
+                <Label text="Nominal Pajak:" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+                <Label fx:id="taxAmountLabel" text="Rp 0" alignment="CENTER_RIGHT" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+            </GridPane>
+
+            <Separator />
+
+            <!-- Display Grand Total -->
+            <VBox style="-fx-background-color: #0f172a; -fx-padding: 15; -fx-background-radius: 8;" alignment="CENTER_LEFT">
+                <Label text="TOTAL TAGIHAN" textFill="#94a3b8">
+                    <font>
+                        <Font size="11.0" />
+                    </font>
+                </Label>
+                <Label fx:id="grandTotalLabel" text="Rp 0" textFill="#38bdf8">
+                    <font>
+                        <Font name="System Bold" size="24.0" />
+                    </font>
+                </Label>
+            </VBox>
+
+            <!-- Metode Bayar & Uang Diterima -->
+            <VBox spacing="5.0">
+                <Label text="Metode Pembayaran:" />
+                <ComboBox fx:id="paymentMethodComboBox" prefWidth="310.0" />
+            </VBox>
+
+            <VBox spacing="5.0">
+                <Label text="Uang Diterima (Rp):" />
+                <TextField fx:id="cashReceivedField" prefHeight="35.0" promptText="0" />
+            </VBox>
+
+            <VBox spacing="5.0">
+                <Label text="Kembalian:" />
+                <Label fx:id="changeLabel" text="Rp 0" textFill="#16a34a">
+                    <font>
+                        <Font name="System Bold" size="18.0" />
+                    </font>
+                </Label>
+            </VBox>
+
+            <Region VBox.vgrow="ALWAYS" />
+
+            <Button onAction="#handleProcessPayment" text="Proses &amp; Simpan Transaksi" prefHeight="45.0" prefWidth="310.0" style="-fx-background-color: #16a34a; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand; -fx-font-size: 14px;" />
+        </VBox>
+    </right>
+</BorderPane>
