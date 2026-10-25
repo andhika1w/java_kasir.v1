@@ -46,7 +46,9 @@ public class PosController {
 
     private final ObservableList<CartItem> cartList = FXCollections.observableArrayList();
     private final ObservableList<Product> productList = FXCollections.observableArrayList();
-    private final NumberFormat rupiahFormat = NumberFormat.getCurrencyInstance(new Locale("id", "ID"));
+
+    // Peringatan "Locale is deprecated" sudah diatasi dengan penulisan Locale.of() untuk Java versi baru
+    private final NumberFormat rupiahFormat = NumberFormat.getCurrencyInstance(Locale.of("id", "ID"));
     private User activeUser;
 
     private BigDecimal currentSubtotal = BigDecimal.ZERO;
@@ -103,7 +105,6 @@ public class PosController {
     private void loadProductsFromDatabase() {
         productList.clear();
         try {
-            // Menggunakan ProductDAO untuk mengambil data
             List<Product> availableProducts = productDAO.getAvailableProducts();
             productList.addAll(availableProducts);
             productComboBox.setItems(productList);
@@ -225,6 +226,60 @@ public class PosController {
         }
     }
 
+    // ==========================================
+    // FITUR MEMBUKA HALAMAN MANAJEMEN PRODUK
+    // ==========================================
+    @FXML
+    private void handleOpenProductManagement() {
+        // Batasi akses hanya untuk Admin (opsional)
+        if (activeUser != null && !"Admin".equalsIgnoreCase(activeUser.getRole())) {
+            showAlert(Alert.AlertType.WARNING, "Akses Ditolak", "Hanya Admin yang dapat mengakses Manajemen Produk.");
+            return;
+        }
+
+        try {
+            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(getClass().getResource("/com/toko/kasirtoko/product-view.fxml"));
+            javafx.scene.Parent root = loader.load();
+
+            javafx.stage.Stage stage = new javafx.stage.Stage();
+            stage.setTitle("Manajemen Produk - Sistem Kasir");
+            stage.setScene(new javafx.scene.Scene(root));
+
+            // Mengatur jendela ini sebagai modal (tidak bisa klik kasir sebelum jendela ini ditutup)
+            stage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+
+            // Muat ulang daftar barang di kasir setelah jendela ditutup
+            loadProductsFromDatabase();
+
+        } catch (java.io.IOException e) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Gagal membuka halaman Manajemen Produk: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    // ==========================================
+    // FITUR MEMBUKA HALAMAN LAPORAN TRANSAKSI
+    // ==========================================
+    @FXML
+    private void handleOpenHistory() {
+        try {
+            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(getClass().getResource("/com/toko/kasirtoko/history-view.fxml"));
+            javafx.scene.Parent root = loader.load();
+
+            javafx.stage.Stage stage = new javafx.stage.Stage();
+            stage.setTitle("Laporan & Riwayat Transaksi - Sistem Kasir");
+            stage.setScene(new javafx.scene.Scene(root));
+            stage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+        } catch (java.io.IOException e) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Gagal membuka Laporan Transaksi: " + e.getMessage());
+        }
+    }
+
+    // ==========================================
+    // FITUR PROSES PEMBAYARAN & SIMPAN
+    // ==========================================
     @FXML
     private void handleProcessPayment() {
         if (cartList.isEmpty()) {
@@ -288,36 +343,5 @@ public class PosController {
         alert.setHeaderText(null);
         alert.setContentText(content);
         alert.showAndWait();
-    }
-    // ==========================================
-    // FITUR MEMBUKA HALAMAN MANAJEMEN PRODUK
-    // ==========================================
-    @FXML
-    private void handleOpenProductManagement() {
-        // Batasi akses hanya untuk Admin (opsional)
-        if (activeUser != null && !"Admin".equalsIgnoreCase(activeUser.getRole())) {
-            showAlert(Alert.AlertType.WARNING, "Akses Ditolak", "Hanya Admin yang dapat mengakses Manajemen Produk.");
-            return;
-        }
-
-        try {
-            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(getClass().getResource("/com/toko/kasirtoko/product-view.fxml"));
-            javafx.scene.Parent root = loader.load();
-
-            javafx.stage.Stage stage = new javafx.stage.Stage();
-            stage.setTitle("Manajemen Produk - Sistem Kasir");
-            stage.setScene(new javafx.scene.Scene(root));
-
-            // Mengatur jendela ini sebagai modal (tidak bisa klik kasir sebelum jendela ini ditutup)
-            stage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
-            stage.showAndWait();
-
-            // Muat ulang daftar barang di kasir setelah jendela ditutup (berjaga-jaga jika ada stok/harga berubah)
-            loadProductsFromDatabase();
-
-        } catch (java.io.IOException e) {
-            showAlert(Alert.AlertType.ERROR, "Error", "Gagal membuka halaman Manajemen Produk: " + e.getMessage());
-            e.printStackTrace();
-        }
     }
 }

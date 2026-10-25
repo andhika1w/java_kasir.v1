@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<VBox spacing="15" prefHeight="620.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.toko.kasirtoko.controller.HistoryController" style="-fx-background-color: #f8fafc;">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <!-- Header & Tombol Ekspor Excel -->
+    <HBox alignment="CENTER_LEFT" spacing="15">
+        <Label text="Riwayat Transaksi &amp; Laporan Barang" textFill="#0f172a">
+            <font>
+                <Font name="System Bold" size="22.0" />
+            </font>
+        </Label>
+        <Region HBox.hgrow="ALWAYS" />
+        <Button onAction="#handleExportDetailTransaksi" text="📊 Ekspor Detail Penjualan Barang (Excel)" style="-fx-background-color: #16a34a; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand; -fx-padding: 8 15;" />
+        <Button onAction="#handleExportStokBarang" text="📦 Ekspor Laporan Stok Barang (Excel)" style="-fx-background-color: #0284c7; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand; -fx-padding: 8 15;" />
+    </HBox>
+
+    <!-- Tabel Riwayat Faktur -->
+    <TableView fx:id="historyTable" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="colFaktur" text="No. Faktur" prefWidth="160"/>
+            <TableColumn fx:id="colMetode" text="Metode Bayar" prefWidth="120"/>
+            <TableColumn fx:id="colSubtotal" text="Subtotal" prefWidth="140"/>
+            <TableColumn fx:id="colDiskon" text="Diskon" prefWidth="110"/>
+            <TableColumn fx:id="colPpn" text="PPN" prefWidth="110"/>
+            <TableColumn fx:id="colGrandTotal" text="Grand Total (Pendapatan)" prefWidth="200"/>
+        </columns>
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+        </columnResizePolicy>
+    </TableView>
+
+    <!-- Ringkasan Bawah: Total Barang & Total Pendapatan -->
+    <HBox alignment="CENTER_RIGHT" spacing="25" style="-fx-padding: 15 20; -fx-background-color: #0f172a; -fx-background-radius: 8;">
+        <Label text="Total Barang Terjual:" textFill="#94a3b8">
+            <font>
+                <Font name="System Bold" size="15.0" />
+            </font>
+        </Label>
+        <Label fx:id="totalBarangLabel" text="0 Item" textFill="#38bdf8">
+            <font>
+                <Font name="System Bold" size="18.0" />
+            </font>
+        </Label>
+
+        <Separator orientation="VERTICAL" />
+
+        <Label text="Total Pendapatan:" textFill="#94a3b8">
+            <font>
+                <Font name="System Bold" size="15.0" />
+            </font>
+        </Label>
+        <Label fx:id="totalPendapatanLabel" text="Rp 0" textFill="#4ade80">
+            <font>
+                <Font name="System Bold" size="20.0" />
+            </font>
+        </Label>
+    </HBox>
+</VBox>

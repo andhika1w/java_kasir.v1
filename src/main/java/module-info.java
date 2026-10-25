@@ -8,7 +8,6 @@ module com.toko.kasirtoko {
     requires bcrypt;
     requires itextpdf;
 
-    // Membuka akses refleksi runtime JavaFX
     opens com.toko.kasirtoko to javafx.fxml;
     opens com.toko.kasirtoko.controller to javafx.fxml;
     opens com.toko.kasirtoko.model to javafx.base;

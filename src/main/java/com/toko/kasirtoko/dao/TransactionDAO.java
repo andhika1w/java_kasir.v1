@@ -88,4 +88,28 @@ public class TransactionDAO {
             }
         }
     }
+    public List<Transaction> getAllTransactions() throws SQLException {
+        List<Transaction> list = new java.util.ArrayList<>();
+        String sql = "SELECT * FROM transactions ORDER BY id DESC";
+
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                list.add(new Transaction(
+                        rs.getString("no_faktur"),
+                        rs.getInt("user_id"),
+                        rs.getBigDecimal("subtotal"),
+                        rs.getBigDecimal("diskon_transaksi"),
+                        rs.getBigDecimal("pajak_ppn"),
+                        rs.getBigDecimal("grand_total"),
+                        rs.getString("metode_bayar"),
+                        rs.getBigDecimal("nominal_bayar"),
+                        rs.getBigDecimal("kembalian")
+                ));
+            }
+        }
+        return list;
+    }
 }

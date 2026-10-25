@@ -6,17 +6,18 @@
 <?import javafx.scene.text.Font?>
 
 <BorderPane prefHeight="700.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.toko.kasirtoko.controller.PosController" style="-fx-background-color: #f1f5f9;">
-    <!-- Bagian Atas: Bar Informasi Kasir -->
+    <!-- Bagian Atas: Bar Informasi Kasir & Tombol Navigasi -->
     <top>
-        <HBox alignment="CENTER_LEFT" spacing="20.0" style="-fx-background-color: #1e293b; -fx-padding: 15 25;">
+        <HBox alignment="CENTER_LEFT" spacing="15.0" style="-fx-background-color: #1e293b; -fx-padding: 15 25;">
             <Label text="Sistem Kasir Toko" textFill="white">
                 <font>
                     <Font name="System Bold" size="20.0" />
                 </font>
             </Label>
 
-            <!-- TOMBOL MANAJEMEN PRODUK DITAMBAHKAN DI SINI -->
-            <Button text="Manajemen Produk" onAction="#handleOpenProductManagement" styleClass="btn, btn-info" style="-fx-background-color: #38bdf8; -fx-text-fill: #0f172a; -fx-font-weight: bold; -fx-cursor: hand;" />
+            <!-- KEDUA TOMBOL SEKARANG BERSANDINGAN SECARA BENAR -->
+            <Button text="📦 Manajemen Produk" onAction="#handleOpenProductManagement" style="-fx-background-color: #38bdf8; -fx-text-fill: #0f172a; -fx-font-weight: bold; -fx-cursor: hand; -fx-padding: 6 12;" />
+            <Button text="📊 Laporan &amp; Ekspor Excel" onAction="#handleOpenHistory" style="-fx-background-color: #4ade80; -fx-text-fill: #0f172a; -fx-font-weight: bold; -fx-cursor: hand; -fx-padding: 6 12;" />
 
             <Region HBox.hgrow="ALWAYS" />
             <Label fx:id="cashierInfoLabel" text="Kasir: Administrator" textFill="#94a3b8">
